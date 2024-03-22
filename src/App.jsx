@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import './App.css';
 import { fetchAllPokemons, filterResults, fetchResults } from './utils/apiFunctions';
+import './App.css';
 
 function App() {
   const [search, setSearch] = useState('')
@@ -10,49 +10,52 @@ function App() {
 
   useEffect(() => {
     const renderPokemon = async () => {
-      setLoading(true); 
-  
+      setLoading(true);
+
       try {
         if (search !== '') {
-          const results = await fetchAllPokemons(search);
-          const filtered = filterResults(results, search);
-          const matchingPokemons = await fetchResults(filtered);
-  
-          if (matchingPokemons.length === 0) {
-            setError('Pokémon no encontrado');
-            setMatchingResults([]);
-          } else {
-            setError('');
-            setMatchingResults(matchingPokemons);
-          }
+          const results = await fetchAllPokemons(search)
+          const filtered = filterResults(results, search)
+          const matchingPokemons = await fetchResults(filtered)
+
+          matchingPokemons == null || matchingPokemons.length === 0
+            ? (setError('Pokémon no encontrado'), setMatchingResults([]))
+            : (setError(''), setMatchingResults(matchingPokemons))
+
         } else {
-          setError('');
-          setMatchingResults([]);
+          setError('')
+          setMatchingResults([])
         }
       } catch (error) {
-        setError('Error al cargar los Pokémons: ' + error);
-        setMatchingResults([]);
+        console.log(error)
+        setError('Pokémon no encontrado')
+        setMatchingResults([])
       }
-  
-      setLoading(false); 
-    };
-  
-    renderPokemon();
-  }, [search]); 
-  
+
+      setLoading(false)
+    }
+
+    renderPokemon()
+  }, [search])
   return (
     <>
-      <form>
-        <label htmlFor='search'>Buscar Pokémon</label>
-        <input type='text' name='search' value={search} onChange={(e) => { setSearch((e.target.value).toLowerCase().trim()) }} />
-      </form>
-      <div className='loading'>{loading}</div>
+      <header className='header'>
+        <img className='logo' src='./public/pokemon_logo.png' alt='logo' />
+        <form className='form'>
+          <label htmlFor='search'>Buscar Pokémon</label>
+          <input type='text' name='search' value={search} onChange={(e) => { setSearch((e.target.value).toLowerCase().trim()) }} />
+        </form>
+      </header>
+
+      <div className='loading'>{loading === true && ('Loading...')}</div>
       <div className='matchingResults'>{matchingResults && (
         matchingResults.map((pokemon, i) =>
-          <div key={i}>
+          <div className='pokemon' key={i}>
             <img src={pokemon.image} alt={pokemon.name} />
-            <p>Nombre: {pokemon.name}</p>
-            <p>Tipo: {pokemon.type.join(', ')}</p>
+            <div className='info'>
+              <p><span>Nombre:</span> {pokemon.name}</p>
+              <p><span>Tipo:</span> {pokemon.type.join(', ')}</p>
+            </div>
           </div>)
       )}</div>
       <div className='error'>{error}</div>
@@ -61,4 +64,3 @@ function App() {
 };
 
 export default App;
-
