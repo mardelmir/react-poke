@@ -67,3 +67,37 @@ function App() {
 };
 
 export default App;
+
+// 
+
+// import { useState, useEffect } from "react";
+// import searchPokemon from "../utils/functions";
+// import PokemonData from "./components/PokemonData";
+// import Input from "./components/Input"
+// import "./App.css";
+
+
+// function App() {
+//   const [searchInput, setSearchInput] = useState("");
+//   const [pokemonData, setPokemonData] = useState("");
+
+//   useEffect(() => {
+//     const pokeData = async () => {
+//       const data = await searchPokemon(searchInput);
+//       setPokemonData(data);
+//       console.log(data);
+//     };
+//     pokeData();
+//     setPokemonData("");
+//   }, [searchInput]);
+
+//   return (
+//     <>
+//       <h2>Buscador pokemon</h2>
+//       <Input input={searchInput} setInput={setSearchInput} />
+//       <PokemonData pokemonData={pokemonData} />
+//     </>
+//   );
+// }
+
+// export default App;
