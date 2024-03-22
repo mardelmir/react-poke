@@ -37,13 +37,16 @@ function App() {
 
     renderPokemon()
   }, [search])
+
+  const handleSearchChange = (e) => setSearch(e.target.value.toLowerCase().trim())
+
   return (
     <>
       <header className='header'>
         <img className='logo' src='./public/pokemon_logo.png' alt='logo' />
         <form className='form'>
           <label htmlFor='search'>Buscar Pokémon</label>
-          <input type='text' name='search' value={search} onChange={(e) => { setSearch((e.target.value).toLowerCase().trim()) }} />
+          <input type='text' name='search' value={search} placeholder='Introduce tu pokemon' onChange={handleSearchChange} />
         </form>
       </header>
 
